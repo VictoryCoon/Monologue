@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.victory.server.mapper.MsgMapper">
+
+    <resultMap type="com.victory.server.repository.MsgRepository" id="MsgRepository">
+        <result property="msgId"        column="MSG_ID"/>
+        <result property="msgDt"        column="MSG_DT"/>
+        <result property="usrId"        column="USR_ID"/>
+        <result property="sendType"     column="SEND_TYPE"/>
+        <result property="msgType"      column="MSG_TYPE"/>
+        <result property="msgTitle"     column="MSG_TITLE"/>
+        <result property="msgContent"   column="MSG_CONTENT"/>
+        <result property="msgPayload"   column="MSG_PAYLOAD"/>
+        <result property="msgFulltext"  column="MSG_FULLTEXT"/>
+        <result property="tokenPrivate" column="TOKEN_PRIVATE"/>
+        <result property="tokenPublic"  column="TOKEN_PUBLIC"/>
+        <result property="imageUrl"     column="IMAGE_URL"/>
+        <result property="sound"        column="SOUND"/>
+        <result property="requestTime"  column="REQUEST_TIME"/>
+        <result property="responseTime" column="RESPONSE_TIME"/>
+        <result property="confirmTime"  column="CONFIRM_TIME"/>
+        <result property="status"       column="STATUS"/>
+        <result property="statusCode"   column="STATUS_CODE"/>
+        <result property="traceSeq"     column="TRACE_SEQ"/>
+        <result property="regDt"        column="REG_DT"/>
+        <result property="regId"        column="REG_ID"/>
+        <result property="updDt"        column="UPD_DT"/>
+        <result property="updId"        column="UPD_ID"/>
+    </resultMap>
+
+    <select id="selectMsgList" resultMap="MsgRepository">
+        SELECT
+        MSG_ID
+        ,MSG_DT
+        ,USR_ID
+        ,SEND_TYPE
+        ,MSG_TYPE
+        ,MSG_TITLE
+        ,MSG_CONTENT
+        ,MSG_PAYLOAD
+        ,MSG_FULLTEXT
+        ,TOKEN_PRIVATE
+        ,TOKEN_PUBLIC
+        ,IMAGE_URL
+        ,SOUND
+        FROM G_PUSH_SEND
+    </select>
+
+    <delete id="deleteQueueMsg" parameterType="com.victory.server.repository.MsgRepository">
+        DELETE FROM G_PUSH_SEND WHERE MSG_ID = #{msgId}
+    </delete>
+
+    <insert id="insertMsgLog" parameterType="com.victory.server.repository.MsgRepository">
+        INSERT INTO G_PUSH_LOG
+        (MSG_ID
+        ,MSG_DT
+        ,USR_ID
+        ,SEND_TYPE
+        ,MSG_TYPE
+        ,MSG_TITLE
+        ,MSG_CONTENT
+        ,MSG_PAYLOAD
+        ,MSG_FULLTEXT
+        ,TOKEN_PRIVATE
+        ,TOKEN_PUBLIC
+        ,IMAGE_URL
+        ,SOUND
+        ,STATUS_CODE
+        ,REG_ID
+        )
+        VALUES
+        (#{msgId}
+        ,#{msgDt}
+        ,#{usrId}
+        ,#{sendType}
+        ,#{msgType}
+        ,#{msgTitle}
+        ,#{msgContent}
+        ,#{msgPayload}
+        ,#{msgFulltext}
+        ,#{tokenPrivate}
+        ,#{tokenPublic}
+        ,#{imageUrl}
+        ,#{sound}
+        ,#{statusCode}
+        ,#{regId}
+        )
+    </insert>
+
+    <insert id="insertMsgTrace" parameterType="com.victory.server.repository.MsgRepository">
+        INSERT INTO G_PUSH_TRACE
+        (MSG_ID
+        ,MSG_DT
+        ,TRACE_SEQ
+        ,STATUS
+        ,STATUS_CODE
+        ,REG_ID
+        )
+        VALUES
+        (#{msgId}
+        ,#{msgDt}
+        ,(SELECT NVL(MAX(trace.TRACE_SEQ),0)+1 FROM G_PUSH_TRACE trace WHERE trace.MSG_DT = #{msgDt} AND trace.MSG_ID = #{msgId})
+        ,#{status}
+        ,#{statusCode}
+        ,#{regId}
+        )
+    </insert>
+
+</mapper>
