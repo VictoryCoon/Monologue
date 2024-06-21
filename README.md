@@ -18,8 +18,8 @@ SI/SM개발자로 지낸지 어언 6년차, 곧 7년차를 맞이하고 있다.
 
 현재까지의 절차는 아래와 같으며, 이 내용은 계속 업데이트 될 예정이다.
 
+- Mariadb 생성(Docker)
 - Spring Boot Project생성(without web servlet)
 - CommandLine 프로세스 구현
 - Mybatis 설정
-- Mariadb 생성(Docker)
 - CommandLine 프로세스로 생성한 Thread로 Transactional CRUD 구현
