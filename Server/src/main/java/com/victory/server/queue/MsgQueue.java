@@ -2,6 +2,7 @@ package com.victory.server.queue;
 
 import com.victory.server.repository.MsgRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 class Node<T>{
     T data = null;
@@ -9,6 +10,7 @@ class Node<T>{
 }
 
 @Slf4j
+@Component
 public class MsgQueue{
 
     private Node<MsgRepository> head;

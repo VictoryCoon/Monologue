@@ -9,31 +9,31 @@ import java.util.List;
 
 
 @Slf4j
-public class MsgWorker implements Runnable{
+public class MsgSelectWorker implements Runnable{
 
     private final MsgService msgService;
     private final int id;
+    private final MsgQueue msgQueue;
 
-    public MsgWorker(MsgService msgService, int id){
+    public MsgSelectWorker(MsgService msgService, int id, MsgQueue msgQueue){
         this.msgService = msgService;
         this.id = id;
+        this.msgQueue = msgQueue;
     }
 
     @Override
     public void run() {
         while (true){
             try {
-                MsgQueue queue = new MsgQueue();
                 List<MsgRepository> list = msgService.selectList();
-                for(MsgRepository msg : list){
-                    queue.enQueue(msg);
-                }
-
-                while(!queue.isEmpty()){
-                    msgService.insertMsgLog(queue.deQueue());
+                if(list.isEmpty()){
+                    Thread.sleep(1000);
+                }else{
+                    for(MsgRepository msg : list){
+                        msgQueue.enQueue(msg);
+                    }
                 }
                 log.info("Service is running");
-                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

@@ -1,7 +1,10 @@
 package com.victory.server.component;
 
+import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
-import com.victory.server.worker.MsgWorker;
+import com.victory.server.worker.MsgSelectWorker;
+import com.victory.server.worker.MsgSendWorker;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,10 +22,15 @@ public class CommandLineApp implements CommandLineRunner {
     public static Object lock = new Object();
 
     @Autowired
+    MsgQueue queue;
+
+    @Autowired
     MsgService msgService;
 
-    public CommandLineApp(Environment env) {
+
+    public CommandLineApp(Environment env, MsgQueue queue) {
         ENV = env;
+        this.queue = queue;
     }
 
     @Override
@@ -35,15 +43,19 @@ public class CommandLineApp implements CommandLineRunner {
         return new SimpleAsyncTaskExecutor();
     }
 
+
     @Bean
     public CommandLineRunner schedulingRunner(TaskExecutor executor){
         return args -> {
             int threadCount = Integer.parseInt(ENV.getProperty("thread.count"));
-            log.info("ThreadCount : {}",threadCount);
+
+            executor.execute(new MsgSelectWorker(msgService,0,this.queue));
+
+            log.info("SendThreadCount : {}",threadCount);
             synchronized (lock) {
                 for (int i=0;i<threadCount;++i){
-                    executor.execute(new MsgWorker(msgService,i));
-                    System.out.println("Thread Run : "+i);
+                    executor.execute(new MsgSendWorker(msgService,i,this.queue));
+                    System.out.println("Send Thread Run : "+i);
                 }
             }
         };

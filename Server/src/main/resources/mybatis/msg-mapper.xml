@@ -31,6 +31,7 @@
     </resultMap>
 
     <select id="selectMsgList" resultMap="MsgRepository">
+        <![CDATA[
         SELECT
         MSG_ID
         ,MSG_DT
@@ -46,13 +47,20 @@
         ,IMAGE_URL
         ,SOUND
         FROM G_PUSH_SEND
+        WHERE 1=1
+          AND MSG_DT = TO_CHAR(SYSDATE(),'YYYYMMDD')
+        LIMIT 5000
+        ]]>
     </select>
 
     <delete id="deleteQueueMsg" parameterType="com.victory.server.repository.MsgRepository">
+        <![CDATA[
         DELETE FROM G_PUSH_SEND WHERE MSG_ID = #{msgId}
+        ]]>
     </delete>
 
     <insert id="insertMsgLog" parameterType="com.victory.server.repository.MsgRepository">
+        <![CDATA[
         INSERT INTO G_PUSH_LOG
         (MSG_ID
         ,MSG_DT
@@ -87,9 +95,11 @@
         ,#{statusCode}
         ,#{regId}
         )
+        ]]>
     </insert>
 
     <insert id="insertMsgTrace" parameterType="com.victory.server.repository.MsgRepository">
+        <![CDATA[
         INSERT INTO G_PUSH_TRACE
         (MSG_ID
         ,MSG_DT
@@ -106,6 +116,7 @@
         ,#{statusCode}
         ,#{regId}
         )
+        ]]>
     </insert>
 
 </mapper>
