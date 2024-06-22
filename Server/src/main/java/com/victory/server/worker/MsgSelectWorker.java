@@ -33,7 +33,6 @@ public class MsgSelectWorker implements Runnable{
                         msgQueue.enQueue(msg);
                     }
                 }
-                log.info("Service is running");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

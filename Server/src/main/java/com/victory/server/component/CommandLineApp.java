@@ -2,6 +2,7 @@ package com.victory.server.component;
 
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
+import com.victory.server.tcp.TcpListener;
 import com.victory.server.worker.MsgSelectWorker;
 import com.victory.server.worker.MsgSendWorker;
 import lombok.Data;
@@ -48,16 +49,19 @@ public class CommandLineApp implements CommandLineRunner {
     public CommandLineRunner schedulingRunner(TaskExecutor executor){
         return args -> {
             int threadCount = Integer.parseInt(ENV.getProperty("thread.count"));
-
+            int bufferSize = Integer.parseInt(ENV.getProperty("buffer.size"));
+            // DB Polling Selecotor
             executor.execute(new MsgSelectWorker(msgService,0,this.queue));
+            executor.execute(new TcpListener(msgService,0,this.queue,bufferSize));
 
-            log.info("SendThreadCount : {}",threadCount);
+            // DB Polling Executor
             synchronized (lock) {
                 for (int i=0;i<threadCount;++i){
                     executor.execute(new MsgSendWorker(msgService,i,this.queue));
                     System.out.println("Send Thread Run : "+i);
                 }
             }
+
         };
     }
 }

@@ -26,7 +26,6 @@ public class MsgSendWorker implements Runnable{
                 while(!msgQueue.isEmpty()){
                     msgService.insertMsgLog(msgQueue.deQueue());
                 }
-                log.info("Service is running");
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
