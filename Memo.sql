@@ -24,7 +24,7 @@ flush privileges;
  **/
 CREATE TABLE G_PUSH_SEND
 (
-  MSG_ID        VARCHAR(20)    NOT NULL, -- YYYMMDD || 'RL' ||TYPE_DESC(2) || SEQUENCE(8), 8자리는 1억건까지 발행 가능
+  MSG_ID        CHAR(20)       NOT NULL, -- YYYMMDD || 'RL' ||TYPE_DESC(2) || SEQUENCE(8), 8자리는 1억건까지 발행 가능
   MSG_DT        CHAR(8)        DEFAULT TO_CHAR(SYSDATE(),'YYYYMMDD'),
   USR_ID        VARCHAR(16)    NOT NULL,
   SEND_TYPE     CHAR(1)        NOT NULL, -- D : DB I/O, F : FILE INSERT, O : TCP, ETC ...
@@ -42,7 +42,7 @@ CREATE TABLE G_PUSH_SEND
 
 CREATE TABLE G_PUSH_SCHD
 (
-  MSG_ID        VARCHAR(20)    NOT NULL, -- YYYMMDD || 'RL' ||TYPE_DESC(2) || SEQUENCE(8), 8자리는 1억건까지 발행 가능
+  MSG_ID        CHAR(20)       NOT NULL, -- YYYMMDD || 'RL' ||TYPE_DESC(2) || SEQUENCE(8), 8자리는 1억건까지 발행 가능
   MSG_DT        CHAR(8)        DEFAULT TO_CHAR(SYSDATE(),'YYYYMMDD'),
   USR_ID        VARCHAR(16)    NOT NULL,
   SEND_TYPE     CHAR(1)        DEFAULT 'B', -- B : BATCH
@@ -65,7 +65,7 @@ CREATE TABLE G_PUSH_SCHD
 
 CREATE TABLE G_PUSH_LOG
 (
-  MSG_ID        VARCHAR(20)    NOT NULL, -- YYYMMDD ||'RV'||TYPE_DESC(2) || SEQUENCE(8), 8자리는 1억건까지 발행 가능
+  MSG_ID        CHAR(20)       NOT NULL, -- YYYMMDD ||'RV'||TYPE_DESC(2) || SEQUENCE(8), 8자리는 1억건까지 발행 가능
   MSG_DT        CHAR(8)        DEFAULT TO_CHAR(SYSDATE(),'YYYYMMDD'),
   USR_ID        VARCHAR(16)    NOT NULL,
   SEND_TYPE     CHAR(1)        NOT NULL, -- D : DB I/O, F : FILE INSERT, O : TCP, B : BATCH, ETC ...
