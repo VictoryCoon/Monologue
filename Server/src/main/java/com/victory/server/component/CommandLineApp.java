@@ -50,8 +50,10 @@ public class CommandLineApp implements CommandLineRunner {
         return args -> {
             int threadCount = Integer.parseInt(ENV.getProperty("thread.count"));
             int bufferSize = Integer.parseInt(ENV.getProperty("buffer.size"));
-            // DB Polling Selecotor
+            // DB Polling Selector
             executor.execute(new MsgSelectWorker(msgService,0,this.queue));
+
+            // TCP Listener
             executor.execute(new TcpListener(msgService,0,this.queue,bufferSize));
 
             // DB Polling Executor
@@ -61,7 +63,6 @@ public class CommandLineApp implements CommandLineRunner {
                     System.out.println("Send Thread Run : "+i);
                 }
             }
-
         };
     }
 }

@@ -2,6 +2,7 @@ package com.victory.server.tcp;
 
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
+import com.victory.server.util.SplitUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +42,15 @@ public class TcpListener implements Runnable{
             ){
                 byte[] _data = new byte[this.bufferSize];
                 int inputBytes = inputStream.read(_data);
-                final String messageClient = new String(_data,0,inputBytes);
-                outputStream.write(messageClient.getBytes());
-                log.info("OUTPUT STREAM : {}",messageClient);
+                SplitUtil splitUtil = new SplitUtil();
+                listenSocket.setKeepAlive(true);
+                //final String messageClient = new String(_data,0,inputBytes);
+                StringBuilder messageClient = new StringBuilder();
+                messageClient.append(new String(_data,0,inputBytes));
+                //outputStream.write(messageClient.getBytes());
+                //log.info("OUTPUT STREAM : {}",messageClient);
+                log.info("OUTPUT STREAM : {}",splitUtil.splitInfoMsgRepository(messageClient));
+                msgQueue.enQueue(splitUtil.splitInfoMsgRepository(messageClient));
                 outputStream.flush();
             }catch (IOException e){
                 throw new RuntimeException(e);
