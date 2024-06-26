@@ -1,15 +1,14 @@
-package com.victory.server.component;
+package com.victory.server.command;
 
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
-import com.victory.server.tcp.TcpListener;
 import com.victory.server.worker.MsgSelectWorker;
 import com.victory.server.worker.MsgSendWorker;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
@@ -17,50 +16,46 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CommandLineApp implements CommandLineRunner {
+public class CommandLinePollingApp implements CommandLineRunner {
 
     private final Environment ENV;
     public static Object lock = new Object();
 
     @Autowired
-    MsgQueue queue;
+    final MsgQueue pollingQueue;
 
     @Autowired
     MsgService msgService;
 
 
-    public CommandLineApp(Environment env, MsgQueue queue) {
+    public CommandLinePollingApp(Environment env, MsgQueue pollingQueue) {
         ENV = env;
-        this.queue = queue;
+        this.pollingQueue = pollingQueue;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("This is CommandLineApp");
+        log.info("This is CommandLine[Polling]App");
     }
 
-    @Bean(name="executor")
+    @Bean(name="pollingExecutor")
     public TaskExecutor taskExecutor(){
         return new SimpleAsyncTaskExecutor();
     }
 
 
     @Bean
-    public CommandLineRunner schedulingRunner(TaskExecutor executor){
+    public CommandLineRunner pollingRunner(TaskExecutor executor){
         return args -> {
             int threadCount = Integer.parseInt(ENV.getProperty("thread.count"));
-            int bufferSize = Integer.parseInt(ENV.getProperty("buffer.size"));
             // DB Polling Selector
-            executor.execute(new MsgSelectWorker(msgService,0,this.queue));
-
-            // TCP Listener
-            executor.execute(new TcpListener(msgService,0,this.queue,bufferSize));
+            executor.execute(new MsgSelectWorker(msgService,0,this.pollingQueue));
 
             // DB Polling Executor
-            synchronized (lock) {
+            synchronized (this.pollingQueue) {
                 for (int i=0;i<threadCount;++i){
-                    executor.execute(new MsgSendWorker(msgService,i,this.queue));
-                    System.out.println("Send Thread Run : "+i);
+                    executor.execute(new MsgSendWorker(msgService,i,this.pollingQueue));
+                    //System.out.println("Send Thread Run : "+i);
                 }
             }
         };
