@@ -2,7 +2,7 @@ package com.victory.server.command;
 
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
-import com.victory.server.tcp.TcpListener;
+import com.victory.server.listener.TcpListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -44,7 +44,7 @@ public class CommandLineListenerApp implements CommandLineRunner {
     public CommandLineRunner listeningRunner(TaskExecutor executor) {
         return args -> {
             int bufferSize = Integer.parseInt(ENV.getProperty("buffer.size"));
-            executor.execute(new TcpListener(this.tcpQueue,bufferSize));
+            //executor.execute(new TcpListener(this.tcpQueue,bufferSize));
         };
     }
 }

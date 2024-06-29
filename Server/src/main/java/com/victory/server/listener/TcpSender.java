@@ -1,4 +1,4 @@
-package com.victory.server.tcp;
+package com.victory.server.listener;
 
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.util.SplitUtil;
@@ -21,9 +21,7 @@ public class TcpSender extends Thread {
     public void run() {
         SplitUtil splitUtil = new SplitUtil();
         StringBuilder messageClient = new StringBuilder();
-        log.info("OUTPUT STREAM : {}",this._data.length);
         messageClient.append(new String(this._data, 0, this._inData));
-        log.info("OUTPUT STREAM : {}", splitUtil.splitInfoMsgRepository(messageClient));
         msgQueue.enQueue(splitUtil.splitInfoMsgRepository(messageClient));
     }
 }

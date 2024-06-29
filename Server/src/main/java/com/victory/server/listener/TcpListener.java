@@ -1,25 +1,18 @@
-package com.victory.server.tcp;
+package com.victory.server.listener;
 
 import com.victory.server.queue.MsgQueue;
-import com.victory.server.service.MsgService;
 import com.victory.server.util.SplitUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
-import java.util.Iterator;
-import java.util.Set;
 
 @Slf4j
 public class TcpListener implements Runnable {

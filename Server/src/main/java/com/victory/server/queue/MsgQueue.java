@@ -24,7 +24,7 @@ public class MsgQueue{
         this.head = null;
         this.tail = null;
         this.size = 0;
-        this.maxSize = 2048;    //이건 어디선가 정해보자...
+        this.maxSize = 99999999;    //이건 어디선가 정해보자...
     }
 
     public boolean enQueue(MsgRepository msgRepository){
@@ -65,6 +65,9 @@ public class MsgQueue{
     }
 
     public boolean isFull(){
+        if(size >= maxSize){
+            log.info("IS FULL {}",size);
+        }
         return size >= maxSize;
     }
 

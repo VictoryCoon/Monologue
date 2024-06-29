@@ -34,10 +34,13 @@ public class MsgServiceImpl implements MsgService {
                 log.info("Delete Transactions : {}, {}",i, msgRepository.getMsgId());
                 ++i;
             }
-            session.commit();
+            //if(i > 5000){
+                session.commit();
+            //}
         }catch(Exception e){
             session.rollback();
         }finally {
+            //session.commit();
             session.close();
         }
         return msgList;
@@ -55,7 +58,7 @@ public class MsgServiceImpl implements MsgService {
             success += msgMapper.insertMsgLog(msgRepository);
             log.info("Insert Two ways Transactions  I : {}",success);
             success += msgMapper.insertMsgTrace(msgRepository);
-            log.info("Insert Two ways Transactions II : {}",success);
+            //log.info("Insert Two ways Transactions II : {}",success);
             session.commit();
         }catch(Exception e){
             session.rollback();

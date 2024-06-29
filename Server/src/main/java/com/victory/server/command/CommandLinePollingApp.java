@@ -14,12 +14,14 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 @Slf4j
 @Component
 public class CommandLinePollingApp implements CommandLineRunner {
 
     private final Environment ENV;
-    public static Object lock = new Object();
 
     @Autowired
     final MsgQueue pollingQueue;
@@ -48,15 +50,13 @@ public class CommandLinePollingApp implements CommandLineRunner {
     public CommandLineRunner pollingRunner(TaskExecutor executor){
         return args -> {
             int threadCount = Integer.parseInt(ENV.getProperty("thread.count"));
+            final Lock lock = new ReentrantLock();
             // DB Polling Selector
-            executor.execute(new MsgSelectWorker(msgService,0,this.pollingQueue));
-
+            executor.execute(new MsgSelectWorker(msgService, 0, this.pollingQueue/*,lock*/));
             // DB Polling Executor
-            synchronized (this.pollingQueue) {
-                for (int i=0;i<threadCount;++i){
-                    executor.execute(new MsgSendWorker(msgService,i,this.pollingQueue));
-                    //System.out.println("Send Thread Run : "+i);
-                }
+            for (int i=0;i<threadCount;++i){
+                executor.execute(new MsgSendWorker(msgService,i,this.pollingQueue,lock));
+                //System.out.println("Send Thread Run : "+i);
             }
         };
     }
