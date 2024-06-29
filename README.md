@@ -26,3 +26,5 @@ SI/SM개발자로 지낸지 어언 6년차, 곧 7년차를 맞이하고 있다.
 - TCP Listener 구현
  (* 다중 리스너 구현이 필요하다. 단일 리스너는 PORT의 중첩성을 회피하지 못한다)
 - TCP Non-blocking Socket구현
+- Concurrent Thread구현
+ (* 데이터가 많으면 뻗어버리는 것 까지 확인)
