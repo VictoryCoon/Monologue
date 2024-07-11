@@ -9,6 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.PathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
@@ -25,17 +27,18 @@ public class MybatisConfiguration {
 
     @Bean
     public DataSource dataSource(){
-        DataSource dataSource = new HikariDataSource(hikariConfig());
-        return dataSource;
+        return new HikariDataSource(hikariConfig());
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource);
-        //sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/msg-mapper.xml"));
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/device-mapper.xml"));
+        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setMapperLocations(
+            new PathMatchingResourcePatternResolver()
+                    .getResources("classpath:mybatis/*.xml")
+                    // 기가막히는 상황인데, getResource는 단건, getResources는 패턴...
+        );
         return sqlSessionFactoryBean.getObject();
     }
 
