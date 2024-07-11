@@ -28,3 +28,4 @@ SI/SM개발자로 지낸지 어언 6년차, 곧 7년차를 맞이하고 있다.
 - TCP Non-blocking Socket구현
 - Concurrent Thread구현
  (* 데이터가 많으면 뻗어버리는 것 까지 확인)
+- Redis Sync 구현 / Mybatis Debugging(Multi-resource)
