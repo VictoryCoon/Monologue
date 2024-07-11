@@ -19,7 +19,6 @@ public class TcpListener implements Runnable {
     //private final int id;
     private final MsgQueue msgQueue;
     private final int bufferSize;
-    public static Object lock = new Object();
 
     public TcpListener(/*int id,*/MsgQueue msgQueue, int bufferSize) {
         //this.id = id;
@@ -36,10 +35,9 @@ public class TcpListener implements Runnable {
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.bind(new InetSocketAddress("localhost",21000));
         serverSocketChannel.configureBlocking(false);
-        ByteBuffer buffer = ByteBuffer.allocate(8192*10);
+        ByteBuffer buffer = ByteBuffer.allocate(this.bufferSize);
         while(true){
             SocketChannel socketChannel = serverSocketChannel.accept();
-            //log.info("????");
             StringBuilder sb = new StringBuilder();
             if(null != socketChannel){
                 int inputBytes = socketChannel.read(buffer);
@@ -49,26 +47,7 @@ public class TcpListener implements Runnable {
                 this.msgQueue.enQueue(splitUtil.splitInfoMsgRepository(sb));
             }
             buffer.clear();
-            Thread.sleep(500);
-            /*
-            selector.select();
-            Set<SelectionKey> selectionKeys = selector.selectedKeys();
-            Iterator<SelectionKey> keyIter = selectionKeys.iterator();
-
-            while(keyIter.hasNext()){
-                SelectionKey key = keyIter.next();
-                log.info("BEFORE");
-                if(key.isAcceptable()){
-                    log.info("register");
-                    register(selector,serverSocketChannel);
-                }
-                if(key.isReadable()){
-                    log.info("answerWithEcho");
-                    answerWithEcho(buffer,key);
-                }
-                keyIter.remove();
-            }
-            */
+            Thread.sleep(1000);
         }
     }
 

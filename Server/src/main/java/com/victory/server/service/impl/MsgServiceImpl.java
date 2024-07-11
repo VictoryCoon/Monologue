@@ -31,7 +31,7 @@ public class MsgServiceImpl implements MsgService {
             msgList = msgMapper.selectMsgList();
             for(MsgRepository msgRepository : msgList){
                 msgMapper.deleteQueueMsg(msgRepository);
-                log.info("Delete Transactions : {}, {}",i, msgRepository.getMsgId());
+                //log.info("Delete Transactions : {}, {}",i, msgRepository.getMsgId());
                 ++i;
             }
             session.commit();
@@ -54,7 +54,7 @@ public class MsgServiceImpl implements MsgService {
         msgRepository.setStatusCode('0');
         try{
             success += msgMapper.insertMsgLog(msgRepository);
-            log.info("Insert Two ways Transactions  I : {}",success);
+            //log.info("Insert Two ways Transactions  I : {}",success);
             success += msgMapper.insertMsgTrace(msgRepository);
             //log.info("Insert Two ways Transactions II : {}",success);
             session.commit();

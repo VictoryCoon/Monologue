@@ -1,5 +1,6 @@
 package com.victory.server.command;
 
+import com.victory.server.listener.TcpSender;
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
 import com.victory.server.listener.TcpListener;
@@ -12,6 +13,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 @Component
@@ -43,8 +47,14 @@ public class CommandLineListenerApp implements CommandLineRunner {
     @Bean
     public CommandLineRunner listeningRunner(TaskExecutor executor) {
         return args -> {
+            //int threadCount = Integer.parseInt(ENV.getProperty("thread.listening.count"));
             int bufferSize = Integer.parseInt(ENV.getProperty("buffer.size"));
-            //executor.execute(new TcpListener(this.tcpQueue,bufferSize));
+            final Lock lock = new ReentrantLock();
+            executor.execute(new TcpListener(this.tcpQueue,bufferSize));
+            /*for (int i=0;i<threadCount;++i){
+                executor.execute(new TcpSender(msgService,i,this.tcpQueue,lock));
+                //System.out.println("Send Thread Run : "+i);
+            }*/
         };
     }
 }

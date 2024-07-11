@@ -28,7 +28,7 @@ public class MsgSendWorker implements Runnable{
             try {
                 lock.lock();
                 while(!msgQueue.isEmpty()){
-                    //log.info("MSG_ID : {}",msgQueue.getHead().getMsgId());
+                    log.info("MSG_ID : {}",msgQueue.getHead().getMsgId());
                     msgService.insertMsgLog(msgQueue.deQueue());
                 }
                 Thread.sleep(1000);

@@ -35,6 +35,7 @@ public class MybatisConfiguration {
         sqlSessionFactoryBean.setDataSource(dataSource);
         //sqlSessionFactoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/msg-mapper.xml"));
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/device-mapper.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
