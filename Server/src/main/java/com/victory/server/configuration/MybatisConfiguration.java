@@ -35,9 +35,7 @@ public class MybatisConfiguration {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
         sqlSessionFactoryBean.setMapperLocations(
-            new PathMatchingResourcePatternResolver()
-                    .getResources("classpath:mybatis/*.xml")
-                    // 기가막히는 상황인데, getResource는 단건, getResources는 패턴...
+            new PathMatchingResourcePatternResolver().getResources("classpath:sql/*.xml")
         );
         return sqlSessionFactoryBean.getObject();
     }

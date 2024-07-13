@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Lock;
 
 
 @Slf4j
-public class MsgSelectWorker implements Runnable{
+public class MsgSelectWorker implements Runnable {
 
     private final MsgService msgService;
     private final int id;

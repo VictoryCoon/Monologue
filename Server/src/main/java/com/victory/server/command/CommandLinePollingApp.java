@@ -56,16 +56,16 @@ public class CommandLinePollingApp implements CommandLineRunner {
         return args -> {
             int threadCount = Integer.parseInt(ENV.getProperty("thread.polling.count"));
             final Lock lock = new ReentrantLock();
-            executor.execute(new DeviceInfoSyncWorker(deviceInfoService));
+
             // DB Polling Selector
             executor.execute(new MsgSelectWorker(msgService, 0, this.pollingQueue/*,lock*/));
-            // DB Polling Executor
 
+            // DB Polling Executor
             for (int i=0;i<threadCount;++i){
                 executor.execute(new MsgSendWorker(msgService,i,this.pollingQueue,lock));
-                //System.out.println("Send Thread Run : "+i);
             }
-
+            // Device Info Synchronize
+            executor.execute(new DeviceInfoSyncWorker(deviceInfoService));
         };
     }
 }

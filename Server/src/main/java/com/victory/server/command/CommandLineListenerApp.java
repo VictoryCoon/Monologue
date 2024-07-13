@@ -1,6 +1,5 @@
 package com.victory.server.command;
 
-import com.victory.server.listener.TcpSender;
 import com.victory.server.queue.MsgQueue;
 import com.victory.server.service.MsgService;
 import com.victory.server.listener.TcpListener;
