@@ -7,6 +7,8 @@ $> docker exec -it ${NAME} /bin/bash
 $> ${redisBash}:/data# redis-cli
 $> ${host}:6379 $> info
   (...)
+
+$> docker-compose -f kafka-compose.xml up
   
 show databases;
 
