@@ -11,7 +11,7 @@ $> ${host}:6379 $> info
   (...)
 
 [Kafka]
-$> docker-compose -f kafka-compose.xml up
+$> docker-compose -f kafka-compose.xml up -d
 $> docker exec -it kafka /bin/bash
 $> cd /opt/kafka_2.13-2.8.1/bin ...(${HOME} ALIAS Setting)
    $> kafka-topics.sh --create --topic monoTopic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 ...(Created topic monoTopic.)
