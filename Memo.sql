@@ -1,12 +1,22 @@
+[MariaDB]
 $> docker pull mariadb
 $> docker run —detach —name mariadb -p 3306:3306 —env MARIADB_USER=kspot —env MARIADB_PASSWORD=${PASSWORD} —env MARIADB_ROOT_PASSWORD=oo1414036! mariadb:latest
 
+[Redis]
 $> docker pull redis
 $> sudo docker run -detach --name ${NAME} -p 6379:6379 redis
 $> docker exec -it ${NAME} /bin/bash
 $> ${redisBash}:/data# redis-cli
 $> ${host}:6379 $> info
   (...)
+
+[Kafka]
+$> docker-compose -f kafka-compose.xml up -d
+$> docker exec -it kafka /bin/bash
+$> cd /opt/kafka_2.13-2.8.1/bin ...(${HOME} ALIAS Setting)
+   $> kafka-topics.sh --create --topic monoTopic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 3 ...(Created topic monoTopic.)
+   $> kafka-console-consumer.sh --topic monoTopic --bootstrap-server kafka:9092
+   $> kafka-console-producer.sh --topic monoTopic --broker-list kafka:9092
   
 show databases;
 
