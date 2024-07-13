@@ -1,6 +1,6 @@
 spring:
   application:
-    name: App
+    name: AppServer
   datasource:
     #driverClassName: org.mariadb.jdbc.Driver
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
