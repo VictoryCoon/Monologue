@@ -23,6 +23,7 @@ spring:
 
 server:
   port: 21000
+  shutdown: graceful
 
   #mybatis:
   #mapper-locations: classpath:/mybatis/**/*.xml
