@@ -11,7 +11,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Slf4j
 @Configuration
-public class RedisConfig {
+public class RedisConfiguration {
     @Value("${spring.redis.host}")
     private String host;
 

@@ -15,14 +15,15 @@ spring:
     type: redis
   profiles:
     active: prod
-  main:
-    web-application-type: none
+#  main:
+#    web-application-type: none
   output:
     ansi:
       enabled: always
 
 server:
   port: 11000
+  shutdown: graceful
 
   #mybatis:
   #mapper-locations: classpath:/mybatis/**/*.xml
