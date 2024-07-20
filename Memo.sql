@@ -1,6 +1,6 @@
 [VM]
 UTM : https://github.com/utmapp/UTM/releases
-Ubuntu v22.* : https://releases.ubuntu.com/jammy/
+Ubuntu : https://releases.ubuntu.com/jammy/, https://ubuntu.com/download/server/arm
 
 [Kubernetes]
 1. Install Docker
