@@ -1,5 +1,14 @@
 [VM]
-https://github.com/utmapp/UTM/releases
+UTM : https://github.com/utmapp/UTM/releases
+Ubuntu v22.* : https://releases.ubuntu.com/jammy/
+
+[Kubernetes]
+1. Install Docker
+2. Install Kubernetes
+  - Pre-install Settings
+  - Install kubeadm, kubectl, kubelet
+  - Control-plane Set
+  - Worker-node Set
 
 [MariaDB]
 $> docker pull mariadb
