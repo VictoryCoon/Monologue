@@ -16,6 +16,8 @@ Ubuntu : https://releases.ubuntu.com/jammy/, https://ubuntu.com/download/server/
  - sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 2. Install Kubernetes
   - Pre-install Settings
+   0) Root Password Set : sudo passwd root
+   1) Swap OFF : sudo swapoff -a && -i '/swap/s/^/#/' /etc/fstab
   - Install kubeadm, kubectl, kubelet
   - Control-plane Set
   - Worker-node Set
