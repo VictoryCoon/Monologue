@@ -23,9 +23,9 @@ Ubuntu : https://releases.ubuntu.com/jammy/, https://ubuntu.com/download/server/
                                              net.bridge.bridge-nf-call-iptables = 1
                                              EOF
                                              sysctl --system
-   3) Disable firewall : systemctl stop firewalld; systemctl disable firewalld : https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+   3) Disable firewall : systemctl stop firewalld; systemctl disable firewalld
   
-  - Install kubeadm, kubectl, kubelet
+  - Install kubeadm, kubectl, kubelet : https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
   - Control-plane Set
   - Worker-node Set
   
