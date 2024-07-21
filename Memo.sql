@@ -17,7 +17,7 @@ Ubuntu : https://releases.ubuntu.com/jammy/, https://ubuntu.com/download/server/
 2. Install Kubernetes
   - Pre-install Settings
    0) Root Password Set : sudo passwd root
-   1) Swap OFF : sudo swapoff -a && -i '/swap/s/^/#/' /etc/fstab
+   1) Swap OFF : sudo swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
   - Install kubeadm, kubectl, kubelet
   - Control-plane Set
   - Worker-node Set
