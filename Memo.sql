@@ -18,6 +18,13 @@ Ubuntu : https://releases.ubuntu.com/jammy/, https://ubuntu.com/download/server/
   - Pre-install Settings
    0) Root Password Set : sudo passwd root
    1) Swap OFF : sudo swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
+   2) Letting iptables see bridged traffic : cat <<EOF | tee /etc/sysctl.d/k8s.conf
+                                             net.bridge.bridge-nf-call-ip6tables = 1
+                                             net.bridge.bridge-nf-call-iptables = 1
+                                             EOF
+                                             sysctl --system
+   3) Disable firewall : systemctl stop firewalld; systemctl disable firewalld
+  
   - Install kubeadm, kubectl, kubelet
   - Control-plane Set
   - Worker-node Set
