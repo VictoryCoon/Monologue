@@ -32,3 +32,5 @@ SI/SM개발자로 지낸지 어언 6년차, 곧 7년차를 맞이하고 있다.
 - Zookeeper/Kafka 생성(Docker)
 - Kafka Consumer 구현(Server)
 - Kafka Procuder 구현(Client)
+- Client측 Kafka를 이용하여 메시지 발송
+- Kubernetes교육을 위해 VM구축, 그러나 Mac M2(ARM64) 환경에서 제대로된 VM이 없음.
