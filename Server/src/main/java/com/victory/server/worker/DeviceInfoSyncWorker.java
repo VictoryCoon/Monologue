@@ -15,7 +15,7 @@ public class DeviceInfoSyncWorker implements Runnable{
     public void run() {
         while (true){
             try {
-                deviceInfoService.deviceInfoCaching();
+                //deviceInfoService.deviceInfoCaching();
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
