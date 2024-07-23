@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: BatchServer
+  datasource:
+    driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/msg_server?characterEncoding=UTF-8&serverTimezone=UTC
+    username: msg_server
+    password: ${PWD}
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  cache:
+    type: redis
+  profiles:
+    active: prod
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+  output:
+    ansi:
+      enabled: always
+
+server:
+  port: 41000
+  shutdown: graceful
+
+logging:
+  level:
+    jdbc:
+      sqlonly: off
+      sqltiming: off   # off, info
+      audit: off
+      resultset: off
+      resultsettable: off
+      connection: off

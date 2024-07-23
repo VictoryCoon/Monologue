@@ -1,4 +1,4 @@
-package com.victory.server.configuration;
+package com.victory.batch.configuration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
