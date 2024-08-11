@@ -3,10 +3,12 @@ package com.victory.server.service.impl;
 import com.victory.server.mapper.MsgMapper;
 import com.victory.server.repository.MsgRepository;
 import com.victory.server.service.MsgService;
+import com.victory.server.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,9 @@ public class MsgServiceImpl implements MsgService {
     //MsgMapper msgMapper;    // sqlSession?
     @Autowired
     SqlSessionFactory sqlSessionFactory;
+
+    @Autowired
+    RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<MsgRepository> selectList() {
@@ -49,14 +54,15 @@ public class MsgServiceImpl implements MsgService {
         int success = 0;
         SqlSession session = sqlSessionFactory.openSession(false);
         MsgMapper msgMapper = session.getMapper(MsgMapper.class);
+        RedisUtil redisUtil = new RedisUtil(redisTemplate);
         msgRepository.setRegId("victory");
         msgRepository.setStatus('R');
         msgRepository.setStatusCode('0');
+        msgRepository.setTokenPrivate(redisUtil.getPrivateKeyData(msgRepository.getUsrId()));
+        msgRepository.setTokenPublic(redisUtil.getPublicKeyData(msgRepository.getUsrId()));
         try{
             success += msgMapper.insertMsgLog(msgRepository);
-            //log.info("Insert Two ways Transactions  I : {}",success);
             success += msgMapper.insertMsgTrace(msgRepository);
-            //log.info("Insert Two ways Transactions II : {}",success);
             session.commit();
         }catch(Exception e){
             session.rollback();

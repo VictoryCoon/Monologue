@@ -14,23 +14,23 @@ public class RedisUtil {
         this.redisTemplate = redisTemplate;
     }
 
-    public void setData(String key, String value, Long expiredTime){
-        //redisTemplate.opsForValue().set(key,value,expiredTime, TimeUnit.MICROSECONDS);
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        values.set(key,value,expiredTime);
-    }
-
-    public String getData(String key){
-        //return redisTemplate.opsForValue().get(key).toString();
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        if(null == values.get(key)){
+    public String getPrivateKeyData(String key){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        String concatenation = key.concat("Private");
+        if(null == val.get(concatenation)){
             return "";
         }else{
-            return String.valueOf(values.get(key));
+            return String.valueOf(val.get(concatenation));
         }
     }
 
-    public void remove(String key) {
-        redisTemplate.delete(key);
+    public String getPublicKeyData(String key){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        String concatenation = key.concat("Public");
+        if(null == val.get(concatenation)){
+            return "";
+        }else{
+            return String.valueOf(val.get(concatenation));
+        }
     }
 }
