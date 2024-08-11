@@ -1,10 +1,11 @@
 package com.victory.batch.util;
 
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class RedisUtil {
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -13,22 +14,48 @@ public class RedisUtil {
     }
 
     public void setData(String key, String value, Long expiredTime){
-        //redisTemplate.opsForValue().set(key,value,expiredTime, TimeUnit.MICROSECONDS);
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        values.set(key,value,expiredTime);
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        val.set(key,value);
     }
 
     public String getData(String key){
-        //return redisTemplate.opsForValue().get(key).toString();
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        if(null == values.get(key)){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        if(null == val.get(key)){
             return "";
         }else{
-            return String.valueOf(values.get(key));
+            return String.valueOf(val.get(key));
         }
     }
 
-    public void remove(String key) {
-        redisTemplate.delete(key);
+    /**
+     * For Token Pair Getter and Setter
+     **/
+    public void setPrivateKeyData(String key, String value, Long exp){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        val.set(key.concat("Private"),value);
+    }
+    public void setPublicKeyData(String key, String value, Long exp){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        val.set(key.concat("Public"),value);
+    }
+
+    public String getPrivateKeyData(String key){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        String concatenation = key.concat("Private");
+        if(null == val.get(concatenation)){
+            return "";
+        }else{
+            return String.valueOf(val.get(concatenation));
+        }
+    }
+
+    public String getPublicKeyData(String key){
+        ValueOperations<String, Object> val = redisTemplate.opsForValue();
+        String concatenation = key.concat("Public");
+        if(null == val.get(concatenation)){
+            return "";
+        }else{
+            return String.valueOf(val.get(concatenation));
+        }
     }
 }
