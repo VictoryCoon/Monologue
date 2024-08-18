@@ -1,6 +1,6 @@
 spring:
   application:
-    name: BatchServer
+    name: batch-server
   datasource:
     driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/msg_server?characterEncoding=UTF-8&serverTimezone=UTC
@@ -28,6 +28,17 @@ spring:
 server:
   port: 41000
   shutdown: graceful
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://127.0.0.1:8761/euraka
+  instance:
+    hostname: batch-server
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
 
 logging:
   level:

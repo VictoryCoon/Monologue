@@ -26,8 +26,12 @@ public class MsgController implements HandlerInterceptor {
     @Autowired
     MsgService msgService;
 
+//    @GetMapping(value = "/")
+//    public ResponseEntity<?> home(){
+//        return ResponseEntity.ok("HOME");
+//    }
+
     @GetMapping(value = "/kafkaProduce")
-    //@RequestBody
     public ResponseEntity<?> kafkaProduce(){
         // 20,8,16,1,1,64,2000,4000,4000,256,256,256,1
         String value01 = String.format("%-20s","20240721TEST"+String.valueOf((int)((Math.random()*89999999)+10000000)));

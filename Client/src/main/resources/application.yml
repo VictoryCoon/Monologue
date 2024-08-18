@@ -22,11 +22,18 @@ spring:
       enabled: always
 
 server:
-  port: 11000
+  port: 8761
   shutdown: graceful
 
-  #mybatis:
-  #mapper-locations: classpath:/mybatis/**/*.xml
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      default-zone: http://127.0.0.1:8761/euraka
+  server:
+    enable-self-preservation: false
+    wait-time-in-ms-when-sync-empty: 0
 
 logging:
   level:
