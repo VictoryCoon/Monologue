@@ -37,3 +37,4 @@ SI/SM개발자로 지낸지 어언 6년차, 곧 7년차를 맞이하고 있다.
 - Spring Batch Job 구현, 기기정보 싱크용 등 활용
 - Spring Batch Job - Redis X DeviceInfo (TokenPair) Sync 구현
 - Spring Multi Batch Job - 시간 설정을 다르게, 스케줄링
+- Eureka Server/Client - 8761기본 포트 외에 다른 포트를 사용하고싶은데...
